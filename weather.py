@@ -9,12 +9,27 @@ root.title("Weather App")
 root.configure(bg="royal blue1")
 root.geometry("700x450")
 
-title = Label(root, text="Weather and forecast", fg="yellow", bg="royal blue1", font=("bold",15) )
+def get_weather():
+    city = city_input.get()
+    api_key = "d30c8b838fe4c5de98341081e376bbfb"
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        temp = data['main']['temp']-273.15
+
+        epoch_time = data['dt']
+        date_time = datetime.fromtimestamp(epoch_time)
+
+        timelabel.config(text=str(date_time))
+        temp_field.insert(0, '{:.2f}'.format(temp)+ " celsius")
+
+title = Label(root, text="Current Weather", fg="yellow", bg="royal blue1", font=("bold",15) )
 label1 = Label(root, text = "Enter the city name: ", font = ("bold", 12), bg="royal blue1")
 city_input = Entry(root, width=24, fg="dark blue", font=12, relief="groove")
 timelabel = Label(root, text="", bg="royal blue1", font=("bold", 14), fg="yellow")
 
-button_submit = Button(root, text="Get Weather", width=10, font=12, bg="dark blue", fg="#ffffff",command= None)
+button_submit = Button(root, text="Get Weather", width=10, font=12, bg="dark blue", fg="#ffffff",command = get_weather)
 # button_forecast = Button(root, text = "Weather forecast", width=14, font=12, bg="dark blue",fg="#ffffff" , command= None)
 button_reset = Button(root, text = "Reset", font=12, bg="dark blue", fg="#ffffff", command= None )
 
@@ -35,6 +50,7 @@ desc_field = Entry(root, width = 24, font = 11 )
 
 title.grid(row = 0, column = 1)
 label1.grid(row = 1, column = 0)
+timelabel.grid(row =1, column = 2)
 button_submit.grid(row = 2, column = 1)
 labelTemp.grid(row = 3, column = 0, padx = 5, pady = 5, sticky="W" )
 labelPres.grid(row = 4, column = 0, padx = 5, pady = 5, sticky="W" )
