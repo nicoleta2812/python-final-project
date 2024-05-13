@@ -36,6 +36,16 @@ def get_weather():
         mb.showerror("Error","City not found. Enter a valid city name.")
         city_input.delete(0, END)
 
+def reset():
+    city_input.delete(0, END)
+    temp_field.delete(0, END)
+    pressure_field.delete(0, END)
+    hum_field.delete(0, END)
+    wind_field.delete(0, END)
+    cloud_field.delete(0, END)
+    desc_field.delete(0, END)
+    timelabel.config(text="")
+
 title = Label(root, text="Current Weather", fg="yellow", bg="royal blue1", font=("bold",15) )
 label1 = Label(root, text = "Enter the city name: ", font = ("bold", 12), bg="royal blue1")
 city_input = Entry(root, width=24, fg="dark blue", font=12, relief="groove")
@@ -43,7 +53,7 @@ timelabel = Label(root, text="", bg="royal blue1", font=("bold", 14), fg="yellow
 
 button_submit = Button(root, text="Get Weather", width=10, font=12, bg="dark blue", fg="#ffffff",command = get_weather)
 # button_forecast = Button(root, text = "Weather forecast", width=14, font=12, bg="dark blue",fg="#ffffff" , command= None)
-button_reset = Button(root, text = "Reset", font=12, bg="dark blue", fg="#ffffff", command= None )
+button_reset = Button(root, text = "Reset", font=12, bg="dark blue", fg="#ffffff", command = reset)
 
 # button_submit.pack(padx=50, pady=50)
 labelTemp = Label(root, text = "Temperature", font =("bold", 12), bg="royal blue1")
