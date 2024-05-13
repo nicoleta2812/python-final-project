@@ -17,12 +17,24 @@ def get_weather():
     if response.status_code == 200:
         data = response.json()
         temp = data['main']['temp']-273.15
-
+        humidity = data['main']['humidity']
+        pressure = data['main']['pressure']
+        wind = data['wind']['speed']
         epoch_time = data['dt']
         date_time = datetime.fromtimestamp(epoch_time)
+        desc = data['weather'][0]['description']
+        cloudy = data['clouds']['all']
 
         timelabel.config(text=str(date_time))
-        temp_field.insert(0, '{:.2f}'.format(temp)+ " celsius")
+        temp_field.insert(0, '{:.2f}'.format(temp)+ " C")
+        pressure_field.insert(0, str(pressure) + " hPa")
+        hum_field.insert(0, str(humidity) + "%")
+        wind_field.insert(0, str(wind) + "km/h")        
+        desc_field.insert(0, str(desc))
+        cloud_field.insert(0, str(cloudy) + "%")
+    else:
+        mb.showerror("Error","City not found. Enter a valid city name.")
+        city_input.delete(0, END)
 
 title = Label(root, text="Current Weather", fg="yellow", bg="royal blue1", font=("bold",15) )
 label1 = Label(root, text = "Enter the city name: ", font = ("bold", 12), bg="royal blue1")
